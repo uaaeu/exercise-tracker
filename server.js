@@ -90,10 +90,6 @@ app.get('/api/exercise/log', (req, res) => {
   User.findById(req.query.userId, (err, result) => {
     if(!err){
       
-      if(req.query.limit) {
-        result.log = result.log.slice(0, req.query.limit)
-      }
-      
       if(req.query.from || req.query.to) {
         let fromDate = new Date(0)
         let toDate = new Date()
@@ -114,6 +110,10 @@ app.get('/api/exercise/log', (req, res) => {
           
           return sessionDate >= fromDate && sessionDate <= toDate
         })
+      }
+      
+      if(req.query.limit) {
+        result.log = result.log.slice(0, req.query.limit)
       }
       
       result['count'] = result.log.length
